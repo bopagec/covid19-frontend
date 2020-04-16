@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="summary">
+  <div class="row alert alert-warning">
+    <div class="col-xs-6 totals">
+      <h1 class="text-warning"><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalConfirmed, 0, 'COMMA', 0, 'POINT')}"></span></h1>
+      <p>Total Confirmed</p>
+    </div>
+    <div class="col-xs-6 totals">
+      <h1 class="text-warning"><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalNewCases, 0, 'COMMA', 0, 'POINT')}"></span></h1>
+      <p>Total New Cases</p>
+    </div>
+  </div>
+  <div class="row alert alert-danger">
+    <div class="col-xs-6 totals">
+      <h1 class="text-danger"><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalDeaths, 0, 'COMMA', 0, 'POINT')}"></span></h1>
+      <p>Total Deaths</p>
+    </div>
+    <div class="col-xs-6 totals">
+      <h1 class="text-danger"><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalNewDeaths, 0, 'COMMA', 0, 'POINT')}"></span></h1>
+      <p>Total New Deaths</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>COVID-19 Tracker 2020</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/custom.js"></script>
+
+</head>
+<body>
+
+<div th:replace="/includes/nav_bar :: nav_bar"> </div>
+
+<div class="container">
+  <div th:replace="/includes/summary :: summary"> </div>
+
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Confirmed</th>
+      <th scope="col">Deaths</th>
+      <th scope="col">New Cases</th>
+      <th scope="col">New Deaths</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="report: ${reportResponse.dailyReportDtoList}">
+      <td th:text="${report.lastUpdated}"></td>
+      <td th:text="${#numbers.formatDecimal(report.confirmed, 0, 'COMMA', 0, 'POINT')}"></td>
+      <td th:text="${#numbers.formatDecimal(report.deaths, 0, 'COMMA', 0, 'POINT')}"></td>
+      <td th:text="${#numbers.formatDecimal(report.newCases, 0, 'COMMA', 0, 'POINT')}" class="alert alert-warning"></td>
+      <td th:text="${#numbers.formatDecimal(report.newDeaths, 0, 'COMMA', 0, 'POINT')}" class="alert alert-danger" ></td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+</html>

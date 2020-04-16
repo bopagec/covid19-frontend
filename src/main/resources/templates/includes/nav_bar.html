@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="nav_bar">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/report"><b th:text="${appHeading}"></b></a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li th:class="${prevDatePresent} ? '' : 'active'"><a href="/report/">Yesterday</a></li>
+        <li th:class="${prevDatePresent} ? 'active' : ''"><a th:href="'/report/previous/' + ${prevDate}">Previous Day</a></li>
+        <li th:class="${prevDatePresent} ? 'active' : ''"><a th:href="'/report/next/' + ${nextDate}">Next Day</a></li>
+        <li><a href="#"><span class="label label-primary">As of <span th:text="${targetDate}"></span> @ 23:59:59</span></a></li>
+      </ul>
+
+      <div th:style="${#strings.isEmpty(country) ? 'display:none' : 'display:block'}" style="float:right" class="navbar-header">
+        <a href="#" class="navbar-brand"><span  th:text="${country}"></span></a>
+      </div>
+    </div>
+  </nav>
+</div>
