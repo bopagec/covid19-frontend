@@ -34,8 +34,8 @@
       <td th:text="${report.lastUpdated}"></td>
       <td th:text="${#numbers.formatDecimal(report.confirmed, 0, 'COMMA', 0, 'POINT')}"></td>
       <td th:text="${#numbers.formatDecimal(report.deaths, 0, 'COMMA', 0, 'POINT')}"></td>
-      <td th:text="${#numbers.formatDecimal(report.newCases, 0, 'COMMA', 0, 'POINT')}" class="alert alert-warning"></td>
-      <td th:text="${#numbers.formatDecimal(report.newDeaths, 0, 'COMMA', 0, 'POINT')}" class="alert alert-danger" ></td>
+      <td th:text="${#numbers.formatDecimal(report.newCases, 0, 'COMMA', 0, 'POINT')}" class="alert alert-info"></td>
+      <td th:text="${#numbers.formatDecimal(report.newDeaths, 0, 'COMMA', 0, 'POINT')}" class="alert alert-warning" ></td>
     </tr>
     </tbody>
   </table>

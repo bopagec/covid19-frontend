@@ -37,7 +37,7 @@ public class Covid19FrontEndController {
   private String appHeading;
 
   public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-  public static final DateTimeFormatter CURR_DATE_AS_OF = DateTimeFormatter.ofPattern("dd MMM yy");
+  public static final DateTimeFormatter CURR_DATE_AS_OF = DateTimeFormatter.ofPattern("dd MMM yyyy");
 
   @Autowired
   private RestTemplate restTemplate;
@@ -78,30 +78,35 @@ public class Covid19FrontEndController {
           LocalDate prevDate = targetDate.minusDays(1);
           model.addAttribute("prevDate", FORMATTER.format(prevDate));
           model.addAttribute("nextDate", FORMATTER.format(prevDate.plusDays(1)));
+          model.addAttribute("navigator", "prevDate");
         } else if (direction.get().equals(Direction.next)) {
 
           if (targetDate.isBefore(LocalDate.now())) {
             LocalDate nextDate = targetDate.plusDays(1);
             model.addAttribute("prevDate", FORMATTER.format(nextDate.minusDays(1)));
             model.addAttribute("nextDate", FORMATTER.format(nextDate));
+            model.addAttribute("navigator", "nextDate");
           }
         }
         model.addAttribute("targetDate", FORMATTER.format(targetDate));
       } else {
-        targetDate = LocalDate.now().minusDays(1);
-        model.addAttribute("prevDate", FORMATTER.format(targetDate.minusDays(1)));
-        model.addAttribute("targetDate", CURR_DATE_AS_OF.format(targetDate));
-        model.addAttribute("nextDate", FORMATTER.format(targetDate.plusDays(1)));
+        setDefaultDates(model);
       }
     } catch (Exception e) {
       log.error(e.getMessage());
-      targetDate = LocalDate.now().minusDays(1);
-      model.addAttribute("prevDate", FORMATTER.format(targetDate.minusDays(1)));
-      model.addAttribute("targetDate", CURR_DATE_AS_OF.format(targetDate));
-      model.addAttribute("nextDate", FORMATTER.format(targetDate.plusDays(1)));
+      setDefaultDates(model);
     }
 
     return targetDate;
+  }
+
+  private void setDefaultDates(Model model){
+    LocalDate targetDate = LocalDate.now().minusDays(1);
+
+    model.addAttribute("prevDate", FORMATTER.format(targetDate.minusDays(1)));
+    model.addAttribute("targetDate", CURR_DATE_AS_OF.format(targetDate));
+    model.addAttribute("nextDate", FORMATTER.format(targetDate.plusDays(1)));
+    model.addAttribute("navigator", "yesterday");
   }
 
   @GetMapping(value = {"/report/country/{country}"})
@@ -120,7 +125,7 @@ public class Covid19FrontEndController {
     model.addAttribute("country", country.toUpperCase());
     model.addAttribute("appHeading", appHeading);
 
-    updateDates(model, Optional.empty(), Optional.empty());
+    setDefaultDates(model);
 
     return "country_report";
   }
