@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Builder
 @Component
 public class Summary {
+
   private Long totalConfirmed;
   private Long totalDeaths;
   private Long totalNewCases;

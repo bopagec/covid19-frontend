@@ -5,9 +5,12 @@ server.port: 8082
 covid19.service.api:
   base: 'http://localhost:8081/covid-19/report'
   report:
-   date: '${covid19.service.api.base}'
-   all: '${covid19.service.api.base}/all'
-   country: '${covid19.service.api.base}/country'
+    date: '${covid19.service.api.base}'
+    all: '${covid19.service.api.base}/all'
+    country: '${covid19.service.api.base}/country'
+  user:
+    name: "${COVID_API_USERNAME}"
+    password: "${COVID_API_PASSWORD}"
 
 spring.mvc.static-path-pattern: '/static/**'
 

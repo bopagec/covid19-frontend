@@ -6,14 +6,23 @@ import com.blackpawsys.covid19.frontend.dto.DailyReportDataDto;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +44,12 @@ public class Covid19FrontEndController {
 
   @Value("${app.heading}")
   private String appHeading;
+
+  @Value("${covid19.service.api.user.name}")
+  private String userName;
+
+  @Value("${covid19.service.api.user.password}")
+  private String password;
 
   public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy");
   public static final DateTimeFormatter CURR_DATE_AS_OF = DateTimeFormatter.ofPattern("dd MMM yyyy");
@@ -58,15 +73,35 @@ public class Covid19FrontEndController {
     }
 
     log.info("calling getDailyReport in Covid19FrontEndController, {}", uri);
+    HttpEntity<String> entity = addAuthenticationToken();
 
-    Response<DailyReportDataDto> response = restTemplate.getForObject(URI.create(uri), Response.class);
-    model.addAttribute("reportResponse", response.getPayload());
+    ResponseEntity<Response<DailyReportDataDto>> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity,
+        new ParameterizedTypeReference<Response<DailyReportDataDto>>() {
+        });
+
+    model.addAttribute("reportResponse", responseEntity.getBody().getPayload());
     model.addAttribute("direction", false);
     model.addAttribute("appHeading", appHeading);
 
     return "all_report";
   }
 
+  private HttpEntity<String> addAuthenticationToken() {
+    HttpHeaders headers = new HttpHeaders();
+    StringBuilder sb = new StringBuilder();
+
+    sb.append(userName).append(":").append(password);
+
+    String encodedToken = Base64Utils.encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
+
+    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+    headers.add("Authorization", "Basic " + encodedToken);
+
+    HttpEntity<String> entity = new HttpEntity<>("body", headers);
+
+    return entity;
+  }
 
   private LocalDate updateDates(Model model, Optional<Direction> direction, Optional<String> date) {
     LocalDate targetDate = LocalDate.now().minusDays(1);
@@ -100,7 +135,7 @@ public class Covid19FrontEndController {
     return targetDate;
   }
 
-  private void setDefaultDates(Model model){
+  private void setDefaultDates(Model model) {
     LocalDate targetDate = LocalDate.now().minusDays(1);
 
     model.addAttribute("prevDate", FORMATTER.format(targetDate.minusDays(1)));
