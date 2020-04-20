@@ -57,7 +57,7 @@ public class Covid19FrontEndController {
   @Autowired
   private RestTemplate restTemplate;
 
-  @GetMapping(value = {"/report", "/report/{direction}/{date}"})
+  @GetMapping(value = {"/", "/report", "/report/{direction}/{date}"})
   private String getDailyReport(Model model, @PathVariable Optional<Direction> direction, @PathVariable Optional<String> date) {
     String uri = allReportUri;
     LocalDate localDate = updateDates(model, direction, date);
