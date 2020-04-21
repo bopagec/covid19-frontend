@@ -6,13 +6,13 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="/report">
           <b th:text="${appHeading}"></b>
-          <span class="label label-primary" style="margin-left:10px">As of <span th:text="${targetDate}"></span> @ 23:59:59</span>
         </a>
       </div>
       <ul class="nav navbar-nav">
         <li th:class="${navigator} == 'yesterday' ? 'active' : ''"><a href="/report/">Yesterday</a></li>
         <li th:class="${navigator} == 'prevDate' ? 'active' : ''"><a th:href="'/report/previous/' + ${prevDate}">Previous Day</a></li>
         <li th:class="${navigator} == 'nextDate' ? 'active' : ''"><a th:href="'/report/next/' + ${nextDate}">Next Day</a></li>
+        <li><a href="#"><span class="label label-primary">As of <span th:text="${targetDate}"></span> @ 23:59:59</span></a></li>
       </ul>
 
       <div th:style="${#strings.isEmpty(country) ? 'display:none' : 'display:block'}" style="float:right" class="navbar-header">
