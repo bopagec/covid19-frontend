@@ -15,10 +15,10 @@
 </head>
 <body>
 
-<div th:replace="/includes/nav_bar :: nav_bar"> </div>
+<div th:replace="includes/nav_bar :: nav_bar"> </div>
 
 <div class="container">
-  <div th:replace="/includes/summary :: summary"> </div>
+  <div th:replace="includes/summary :: summary"> </div>
 
   <input type="text" id="filter" class="form-control" onkeyup="myFunction()" placeholder="Search Country here...">
 
@@ -44,6 +44,6 @@
   </table>
 
 </div>
-<div th:replace="/includes/footer :: footer"> </div>
+<div th:replace="includes/footer :: footer"> </div>
 </body>
 </html>
