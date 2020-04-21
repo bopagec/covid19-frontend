@@ -24,5 +24,5 @@ public class DailyReportDto {
   private String state;
   private Long newCases;
   private Long newDeaths;
-  private LocalDateTime lastUpdated;
+  private LocalDate lastUpdated;
 }

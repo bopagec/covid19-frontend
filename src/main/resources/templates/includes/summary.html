@@ -1,23 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="summary">
   <div class="row alert alert-info">
-    <div class="col-xs-6 totals">
+    <div class="col-xs-6 totals" style="padding:0;text-align:left">
       <h1 class="text-info"><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalConfirmed, 0, 'COMMA', 0, 'POINT')}"></span></h1>
-      <p>Total Confirmed</p>
+      <p style="text-align:left">Total Confirmed</p>
     </div>
-    <div class="col-xs-6 totals">
+    <div class="col-xs-6 totals" style="padding:0;text-align:right">
       <h1 class="text-info"><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalNewCases, 0, 'COMMA', 0, 'POINT')}"></span></h1>
-      <p>Total New Cases</p>
+      <p style="text-align:right">Total New Cases</p>
     </div>
   </div>
-  <div class="row alert alert-warning">
-    <div class="col-xs-6 totals text-danger">
+  <div class="row alert alert-warning" >
+    <div class="col-xs-6 totals text-danger" style="padding:0;text-align:left">
       <h1><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalDeaths, 0, 'COMMA', 0, 'POINT')}"></span></h1>
-      <p>Total Deaths</p>
+      <p style="text-align:left">Total Deaths</p>
     </div>
-    <div class="col-xs-6 totals text-danger">
+    <div class="col-xs-6 totals text-danger" style="padding:0;text-align:right">
       <h1><span th:text="${#numbers.formatDecimal(reportResponse.summary.totalNewDeaths, 0, 'COMMA', 0, 'POINT')}"></span></h1>
-      <p>Total New Deaths</p>
+      <p style="text-align:right">Total New Deaths</p>
     </div>
   </div>
 </div>
