@@ -108,7 +108,7 @@ public class Covid19FrontEndController {
         .filter(dailyReportDto ->  dailyReportDto.getLastUpdated().isAfter(LocalDate.now().minusMonths(2)))
         .sorted((o1, o2) -> o1.getLastUpdated().compareTo(o2.getLastUpdated()))
         .collect(Collectors.toList());
-    
+
     Gson gson = new Gson();
 
     return gson.toJson(sortedData);
