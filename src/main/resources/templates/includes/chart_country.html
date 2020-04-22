@@ -6,34 +6,34 @@
   var chartData = JSON.parse([[${chartData}]]);
   var countryName = [[${country}]];
   var newDeathsData = [];
-  var newCasesData = [];
   var datesData = [];
-
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
   $.each(chartData, function(i, data){
-    datesData.push(data.lastUpdated);
+    datesData.push(data.lastUpdated.day + '/' + MONTHS[parseInt(data.lastUpdated.month) - 1]);
     newDeathsData.push(data.newDeaths);
-    newCasesData.push(data.newCases);
   })
 
   document.addEventListener('DOMContentLoaded', function () {
         var myChart = Highcharts.chart('container', {
             chart: {
-                type: 'bar'
+                type: 'line'
             },
             title: {
-                text: 'test'
+                text: countryName
+            },
+            subtitle: {
+              text: 'Death stats for last the 2 months'
             },
             xAxis: {
-            },
-            yAxis: {
                 categories: datesData
             },
+            yAxis: {
+                categories: newDeathsData
+            },
             series: [{
+                color: '#a94442',
                 name: 'New Deaths',
                 data: newDeathsData
-            }, {
-                name: 'New Cases',
-                data: newCasesData
             }]
         });
     });

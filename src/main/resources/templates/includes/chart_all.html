@@ -6,12 +6,10 @@
   var chartData = JSON.parse([[${chartData}]]);
   var countryNames = [];
   var newDeathsData = [];
-  var newCasesData = [];
 
   $.each(chartData, function(i, data){
     countryNames.push(data.country);
     newDeathsData.push(data.newDeaths);
-    newCasesData.push(data.newCases);
   })
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -29,10 +27,8 @@
             },
             series: [{
                 name: 'New Deaths',
-                data: newDeathsData
-            }, {
-                name: 'New Cases',
-                data: newCasesData
+                data: newDeathsData,
+                color:'#a94442'
             }]
         });
     });

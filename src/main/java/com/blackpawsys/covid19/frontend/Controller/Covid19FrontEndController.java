@@ -103,7 +103,12 @@ public class Covid19FrontEndController {
 
   private String createCountryChartDataByDate(ResponseEntity<Response<DailyReportDataDto>> responseEntity) {
     List<DailyReportDto> reportList = responseEntity.getBody().getPayload().getDailyReportDtoList();
-    List<DailyReportDto> sortedData = reportList.stream().sorted((o1, o2) -> o1.getLastUpdated().compareTo(o2.getLastUpdated())).collect(Collectors.toList());
+
+    List<DailyReportDto> sortedData = reportList.stream()
+        .filter(dailyReportDto ->  dailyReportDto.getLastUpdated().isAfter(LocalDate.now().minusMonths(2)))
+        .sorted((o1, o2) -> o1.getLastUpdated().compareTo(o2.getLastUpdated()))
+        .collect(Collectors.toList());
+    
     Gson gson = new Gson();
 
     return gson.toJson(sortedData);
