@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="chart_all">
+<script th:inline="javascript">
+/*<![CDATA[*/
+  var chartData = JSON.parse([[${chartData}]]);
+  var countryNames = [];
+  var newDeathsData = [];
+  var newCasesData = [];
+
+  $.each(chartData, function(i, data){
+    countryNames.push(data.country);
+    newDeathsData.push(data.newDeaths);
+    newCasesData.push(data.newCases);
+  })
+
+  document.addEventListener('DOMContentLoaded', function () {
+        var myChart = Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Top 10 Countries by New Deaths'
+            },
+            xAxis: {
+                categories: countryNames
+            },
+            yAxis: {
+            },
+            series: [{
+                name: 'New Deaths',
+                data: newDeathsData
+            }, {
+                name: 'New Cases',
+                data: newCasesData
+            }]
+        });
+    });
+    /*]]>*/
+</script>
+  <div id="container" style="width:100%; height:400px;"></div>
+</div>

@@ -3,6 +3,8 @@ package com.blackpawsys.covid19.frontend.Controller;
 import com.blackpawsys.covid19.frontend.component.Direction;
 import com.blackpawsys.covid19.frontend.component.Response;
 import com.blackpawsys.covid19.frontend.dto.DailyReportDataDto;
+import com.blackpawsys.covid19.frontend.dto.DailyReportDto;
+import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -10,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -82,8 +86,27 @@ public class Covid19FrontEndController {
     model.addAttribute("reportResponse", responseEntity.getBody().getPayload());
     model.addAttribute("direction", false);
     model.addAttribute("appHeading", appHeading);
+    model.addAttribute("chartData", createTop10_ChartDataByNewDeaths(responseEntity));
 
     return "all_report";
+  }
+
+  private String createTop10_ChartDataByNewDeaths(ResponseEntity<Response<DailyReportDataDto>> responseEntity) {
+    List<DailyReportDto> reportList = responseEntity.getBody().getPayload().getDailyReportDtoList();
+    List<DailyReportDto> top10 = reportList.stream().sorted((o1, o2) -> o2.getNewDeaths().compareTo(o1.getNewDeaths())).collect(Collectors.toList()).subList(0, 10);
+
+    Gson gson = new Gson();
+    String top10Str = gson.toJson(top10);
+
+    return top10Str;
+  }
+
+  private String createCountryChartDataByDate(ResponseEntity<Response<DailyReportDataDto>> responseEntity) {
+    List<DailyReportDto> reportList = responseEntity.getBody().getPayload().getDailyReportDtoList();
+    List<DailyReportDto> sortedData = reportList.stream().sorted((o1, o2) -> o1.getLastUpdated().compareTo(o2.getLastUpdated())).collect(Collectors.toList());
+    Gson gson = new Gson();
+
+    return gson.toJson(sortedData);
   }
 
   private HttpEntity<String> addAuthenticationToken() {
@@ -155,10 +178,15 @@ public class Covid19FrontEndController {
 
     log.info("calling getDailyReport in Covid19FrontEndController, {}", uri);
 
-    Response<DailyReportDataDto> response = restTemplate.getForObject(URI.create(uri), Response.class);
-    model.addAttribute("reportResponse", response.getPayload());
+
+    ResponseEntity<Response<DailyReportDataDto>> response = restTemplate.exchange(uri, HttpMethod.GET, null,
+        new ParameterizedTypeReference<Response<DailyReportDataDto>>() {
+        });
+
+    model.addAttribute("reportResponse", response.getBody().getPayload());
     model.addAttribute("country", country.toUpperCase());
     model.addAttribute("appHeading", appHeading);
+    model.addAttribute("chartData", createCountryChartDataByDate(response));
 
     setDefaultDates(model);
 
