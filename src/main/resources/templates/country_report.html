@@ -31,7 +31,10 @@
     </thead>
     <tbody>
     <tr th:each="report: ${reportResponse.dailyReportDtoList}">
-      <td th:text="${report.lastUpdated}"></td>
+      <th:block
+          th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd''T''HH:mm:ss')}">
+        <td th:text="${#dates.format(sdf.parse(report.lastUpdated), 'dd-MMM-yyyy')}"></td>
+      </th:block>
       <td th:text="${#numbers.formatDecimal(report.confirmed, 0, 'COMMA', 0, 'POINT')}"></td>
       <td th:text="${#numbers.formatDecimal(report.deaths, 0, 'COMMA', 0, 'POINT')}"></td>
       <td th:text="${#numbers.formatDecimal(report.newCases, 0, 'COMMA', 0, 'POINT')}" class="alert alert-info"></td>
