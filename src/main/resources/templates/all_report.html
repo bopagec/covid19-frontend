@@ -34,7 +34,7 @@
     </thead>
     <tbody class="searchable">
     <tr th:each="report: ${reportResponse.dailyReportDtoList}">
-      <td><a class="active" th:href="@{'/report/country/' + ${report.country}}"><span th:text="${report.country}"></span></a></td>
+      <td><a class="active" th:href="@{'/covid19/country/' + ${report.country}}"><span th:text="${report.country}"></span></a></td>
       <td th:text="${#numbers.formatDecimal(report.confirmed, 0, 'COMMA', 0, 'POINT')}"></td>
       <td th:text="${#numbers.formatDecimal(report.deaths, 0, 'COMMA', 0, 'POINT')}"></td>
       <td th:text="${#numbers.formatDecimal(report.newCases, 0, 'COMMA', 0, 'POINT')}" class="alert alert-info"></td>
