@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="world_newDeaths">
+<script th:inline="javascript">
+/*<![CDATA[*/
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  var worldChartData = JSON.parse([[${worldChartData}]]);
+  var world_newDeathsDates = [];
+  var world_newDeaths = [];
+
+  $.each(worldChartData, function(i, data){
+    world_newDeathsDates.push(data.lastUpdated.date.day + '/' + MONTHS[parseInt(data.lastUpdated.date.month) - 1]);
+    world_newDeaths.push(data.newDeaths);
+  })
+
+  document.addEventListener('DOMContentLoaded', function () {
+        var myChart = Highcharts.chart('world_newDeaths', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'World New Deaths Stats'
+            },
+            subtitle: {
+              text: 'for the last 2 months'
+            },
+            xAxis: {
+                categories: world_newDeathsDates
+            },
+            yAxis: {
+            },
+            series: [{
+                color: '#a94442',
+                name: 'New Deaths',
+                data: world_newDeaths
+            }]
+        });
+    });
+    /*]]>*/
+</script>
+  <div id="world_newDeaths" style="width:100%; height:400px;"></div>
+</div>

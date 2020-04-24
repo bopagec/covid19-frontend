@@ -4,6 +4,7 @@ import com.blackpawsys.covid19.frontend.component.Direction;
 import com.blackpawsys.covid19.frontend.component.Response;
 import com.blackpawsys.covid19.frontend.dto.DailyReportDataDto;
 import com.blackpawsys.covid19.frontend.dto.DailyReportDto;
+import com.blackpawsys.covid19.frontend.dto.WorldGraphDataDto;
 import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -87,8 +89,17 @@ public class Covid19FrontEndController {
     model.addAttribute("direction", false);
     model.addAttribute("appHeading", appHeading);
     model.addAttribute("chartData", createTop10_ChartDataByNewDeaths(responseEntity));
+    model.addAttribute("worldChartData", createWorldGraphData(responseEntity));
 
     return "all_report";
+  }
+
+  private String createWorldGraphData(ResponseEntity<Response<DailyReportDataDto>> responseEntity){
+    List<WorldGraphDataDto> graphData = responseEntity.getBody().getPayload().getWorldGraphData();
+
+    Gson gson = new Gson();
+    return gson.toJson(graphData);
+
   }
 
   private String createTop10_ChartDataByNewDeaths(ResponseEntity<Response<DailyReportDataDto>> responseEntity) {

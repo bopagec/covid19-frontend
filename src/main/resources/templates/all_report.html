@@ -21,7 +21,9 @@
 <div class="container">
   <div th:replace="includes/summary :: summary"> </div>
 
-  <div th:replace="includes/chart_all :: chart_all"></div>
+  <div th:replace="includes/charts/top_10_chart_all :: top_10_chart_all"></div>
+  <div th:replace="includes/charts/world_newDeaths :: world_newDeaths"></div>
+  <div th:replace="includes/charts/world_newCases :: world_newCases"></div>
 
   <input type="text" id="filter" class="form-control" onkeyup="myFunction()" placeholder="Search Country here...">
 

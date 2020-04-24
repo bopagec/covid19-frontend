@@ -19,4 +19,5 @@ public class DailyReportDataDto {
 
   private List<DailyReportDto> dailyReportDtoList;
   private Summary summary;
+  private List<WorldGraphDataDto> worldGraphData;
 }

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="chart_all">
+<div th:fragment="top_10_chart_all">
 <script th:inline="javascript">
 /*<![CDATA[*/
-  var chartData = JSON.parse([[${chartData}]]);
+  var world_top_10Data = JSON.parse([[${chartData}]]);
   var countryNames = [];
   var newDeathsData = [];
 
-  $.each(chartData, function(i, data){
+  $.each(world_top_10Data, function(i, data){
     countryNames.push(data.country);
     newDeathsData.push(data.newDeaths);
   })
 
   document.addEventListener('DOMContentLoaded', function () {
-        var myChart = Highcharts.chart('container', {
+        var myChart = Highcharts.chart('world_top_10', {
             chart: {
                 type: 'bar'
             },
@@ -34,5 +34,5 @@
     });
     /*]]>*/
 </script>
-  <div id="container" style="width:100%; height:400px;"></div>
+  <div id="world_top_10" style="width:100%; height:400px;"></div>
 </div>
