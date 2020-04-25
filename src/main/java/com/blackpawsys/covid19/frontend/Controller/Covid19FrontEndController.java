@@ -104,7 +104,12 @@ public class Covid19FrontEndController {
 
   private String createTop10_ChartDataByNewDeaths(ResponseEntity<Response<DailyReportDataDto>> responseEntity) {
     List<DailyReportDto> reportList = responseEntity.getBody().getPayload().getDailyReportDtoList();
-    List<DailyReportDto> top10 = reportList.stream().sorted((o1, o2) -> o2.getNewDeaths().compareTo(o1.getNewDeaths())).collect(Collectors.toList()).subList(0, 10);
+    List<DailyReportDto> top10 = reportList.stream()
+        .sorted((o1, o2) -> o2.getNewDeaths().compareTo(o1.getNewDeaths())).collect(Collectors.toList());
+
+    if(top10.size() > 10){
+      top10 = top10.subList(0, 10);
+    }
 
     Gson gson = new Gson();
     String top10Str = gson.toJson(top10);
