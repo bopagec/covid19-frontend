@@ -1,4 +1,4 @@
 server.port: 8082
 
 covid19.service.api:
-  base: 'http://localhost:8081'
+  base: 'http://localhost:8080'

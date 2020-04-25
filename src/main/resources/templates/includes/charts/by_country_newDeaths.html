@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="by_country_newDeaths">
+<script th:inline="javascript">
+/*<![CDATA[*/
+  var chartData = JSON.parse([[${chartData}]]);
+  var countryName = [[${country}]];
+  var newDeathsData = [];
+  var datesData = [];
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  $.each(chartData, function(i, data){
+    datesData.push(data.lastUpdated.day + '/' + MONTHS[parseInt(data.lastUpdated.month) - 1]);
+    newDeathsData.push(data.newDeaths);
+  })
+
+  document.addEventListener('DOMContentLoaded', function () {
+        var myChart = Highcharts.chart('country_newDeaths', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: countryName
+            },
+            subtitle: {
+              text: 'Death stats for the last 2 months'
+            },
+            xAxis: {
+                categories: datesData
+            },
+            yAxis: {
+                categories: newDeathsData
+            },
+            series: [{
+                color: '#a94442',
+                name: 'New Deaths',
+                data: newDeathsData
+            }]
+        });
+    });
+    /*]]>*/
+</script>
+  <div id="country_newDeaths" style="width:100%; height:400px;"></div>
+</div>
