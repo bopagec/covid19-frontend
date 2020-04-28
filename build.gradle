@@ -26,9 +26,14 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
 	compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 
+	// BlackpawSys mail utility class
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+
+	// https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+	compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
 
 }
 

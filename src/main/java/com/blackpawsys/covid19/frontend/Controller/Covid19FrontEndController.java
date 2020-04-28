@@ -5,6 +5,7 @@ import com.blackpawsys.covid19.frontend.component.Response;
 import com.blackpawsys.covid19.frontend.dto.DailyReportDataDto;
 import com.blackpawsys.covid19.frontend.dto.DailyReportDto;
 import com.blackpawsys.covid19.frontend.dto.WorldGraphDataDto;
+import com.blackpawsys.mail.Mail;
 import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -57,11 +58,16 @@ public class Covid19FrontEndController {
   @Value("${covid19.service.api.user.password}")
   private String password;
 
+  @Value("${app.notifications.email.address}")
+  private String email;
+
   public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy");
   public static final DateTimeFormatter CURR_DATE_AS_OF = DateTimeFormatter.ofPattern("dd MMM yyyy");
 
   @Autowired
   private RestTemplate restTemplate;
+
+  private Mail mail = new Mail();
 
   @GetMapping(value = {"/", "/report", "/covid19", "/covid19/{direction}/{date}"})
   private String getDailyReport(Model model, @PathVariable Optional<Direction> direction, @PathVariable Optional<String> date) {
@@ -172,6 +178,7 @@ public class Covid19FrontEndController {
         setDefaultDates(model);
       }
     } catch (Exception e) {
+      mail.sendMail(email, e.getMessage(), "exception throws during updateDates");
       log.error(e.getMessage());
       setDefaultDates(model);
     }
@@ -194,6 +201,7 @@ public class Covid19FrontEndController {
     try {
       uri = countryReportUri.concat("/").concat(URLEncoder.encode(country, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
+      mail.sendMail(email, e.getMessage(), "exception throws during getCountryReport");
       log.error(e.getMessage());
     }
 
