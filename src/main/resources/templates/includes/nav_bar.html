@@ -12,7 +12,7 @@
         <li th:class="${navigator} == 'yesterday' ? 'active' : ''"><a href="/covid19/">Yesterday</a></li>
         <li th:class="${navigator} == 'prevDate' ? 'active' : ''"><a th:href="'/covid19/previous/' + ${prevDate}">Previous Day</a></li>
         <li th:class="${navigator} == 'nextDate' ? 'active' : ''"><a th:href="'/covid19/next/' + ${nextDate}">Next Day</a></li>
-        <li><a href="#"><span class="label label-primary" style="font-size:1.6em">As of <span th:text="${targetDate}"></span> @ 23:59:59</span></a></li>
+        <li><a href="#"><span class="label label-primary" style="font-size:1.4em">As of <span th:text="${targetDate}"></span> @ 23:59:59</span></a></li>
       </ul>
 
       <div th:style="${#strings.isEmpty(country) ? 'display:none' : 'display:block'}" style="float:right" class="navbar-header">
