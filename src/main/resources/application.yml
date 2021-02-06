@@ -16,5 +16,5 @@ covid19.service.api:
 spring.mvc.static-path-pattern: '/static/**'
 
 app.notifications.email:
-  address: 'blackpawsys@gmail.com'
+  address: 'charatha@gmail.com'
 
