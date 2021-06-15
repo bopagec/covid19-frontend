@@ -13,6 +13,16 @@
         <li th:class="${navigator} == 'prevDate' ? 'active' : ''"><a th:href="'/covid19/previous/' + ${prevDate}">Previous Day</a></li>
         <li th:class="${navigator} == 'nextDate' ? 'active' : ''"><a th:href="'/covid19/next/' + ${nextDate}">Next Day</a></li>
         <li><a href="#"><span class="label label-primary" style="font-size:1.4em">As of <span th:text="${targetDate}"></span> @ 23:59:59</span></a></li>
+
+        <li><a href="#">
+          <!-- PayPal Donate Button -->
+          <form action="https://www.paypal.com/donate" method="post" target="_blank">
+            <input type="hidden" name="hosted_button_id" value="3ZG77UMTXEZNL" />
+            <input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+          </form>
+        </a>
+        </li>
       </ul>
 
       <div th:style="${#strings.isEmpty(country) ? 'display:none' : 'display:block'}" style="float:right" class="navbar-header">
